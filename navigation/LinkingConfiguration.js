@@ -7,8 +7,10 @@ export default {
       path: 'root',
       screens: {
         Home: 'home',
-        Links: 'links',
+        MyFriends: 'my-friends',
+        Settings: 'settings',
       },
     },
+    PrioritySelectionScreen: {path: 'PrioritySelectionScreen'}
   },
 };

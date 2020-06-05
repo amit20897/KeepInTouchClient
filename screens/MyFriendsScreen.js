@@ -1,11 +1,11 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, SectionList } from 'react-native';
-import {  } from 'react-native-gesture-handler';
+import { StyleSheet, Text, View, SectionList, Alert } from 'react-native';
 import { Friend } from '../components/Friend';
 import * as Contacts from 'expo-contacts';
+import { useNavigation } from '@react-navigation/native';
 
-export default function MyFriendsScreen() {
+export default function MyFriendsScreen({ navigation }) {
   const loadingSections = [
     {title: 'Close Friends', data: [{}, {}]},
     {title: 'Friends', data: [{}, {}]},
@@ -23,6 +23,8 @@ export default function MyFriendsScreen() {
         fields: [Contacts.Fields.Emails],
       });
 
+      console.log(data);
+
       return data;
     }
 
@@ -33,7 +35,7 @@ export default function MyFriendsScreen() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve([{firstName: 'Amit', lastName: 'Greenberg'}])
-      }, 2000);
+      }, 1000);
     });
   }
 
@@ -55,6 +57,10 @@ export default function MyFriendsScreen() {
     return `${contact.firstName} ${contact.lastName}`
   }
 
+  async function addFriend(friend) {
+    navigation.navigate('PrioritySelectionScreen', {id: friend.id, isNew: true, source: 'contacts'});
+  }
+
   return (
     <View style={styles.container}>
       <SectionList
@@ -63,7 +69,7 @@ export default function MyFriendsScreen() {
         renderItem={({item}) => 
           <Friend icon="ios-contact"
             label={fullName(item)}
-            onPress={() => WebBrowser.openBrowserAsync('https://forums.expo.io')}
+            onPress={() => addFriend(item) }
             isLoading={isLoading}>
           </Friend>
         }
