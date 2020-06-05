@@ -5,6 +5,8 @@ import { RectButton } from 'react-native-gesture-handler';
 import SkeletonContent from "react-native-skeleton-content";
 
 export function Friend({ icon, label, onPress, isLoading }) {
+  if (isLoading) onPress = () => {};
+
   return (
     <RectButton style={[styles.option]} onPress={onPress}>
       <View style={{ flexDirection: 'row' }}>
