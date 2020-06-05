@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -8,36 +8,78 @@ export default function SettingsScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <OptionButton
-        icon="md-school"
-        label="Read the Expo documentation"
+        icon="md-contact"
+        label="Profile"
+        onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
+        isLastOption
+      />
+
+      <OptionButton
+        icon="google"
+        label="Google Account"
         onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
       />
 
       <OptionButton
-        icon="md-compass"
-        label="Read the React Navigation documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://reactnavigation.org')}
+        icon="facebook"
+        label="Facebook Account"
+        onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
       />
 
       <OptionButton
-        icon="ios-chatboxes"
-        label="Ask a question on the forums"
+        icon="md-school"
+        label="Create Password"
+        onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
+        isLastOption
+      />
+
+      <OptionButton
+        icon="md-refresh"
+        label="Load Old Account"
+        onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
+      />
+
+      <OptionButton
+        icon="md-information-circle-outline"
+        label="About"
+        onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
+        isLastOption
+      />
+
+      <OptionButton
+        icon="sign-out"
+        label="Sign Out"
         onPress={() => WebBrowser.openBrowserAsync('https://forums.expo.io')}
         isLastOption
+      />
+
+      <OptionButton
+        icon="md-remove-circle-outline"
+        label="Reset Account"
+        onPress={() => WebBrowser.openBrowserAsync('https://forums.expo.io')}
+        isLastOption
+        isDistractive
       />
     </ScrollView>
   );
 }
 
-function OptionButton({ icon, label, onPress, isLastOption }) {
+function OptionButton({ icon, label, onPress, isLastOption, isDistractive }) {
+  var iconTag;
+  if (icon && icon.startsWith('md-')) {
+    iconTag = <Ionicons name={icon} size={22} color={isDistractive ? 'red' : 'rgba(0,0,0,0.35)'} />;
+  } else {
+    iconTag = <FontAwesome name={icon} size={22} color={isDistractive ? 'red' : 'rgba(0,0,0,0.35)'} />
+  }
+
   return (
     <RectButton style={[styles.option, isLastOption && styles.lastOption]} onPress={onPress}>
       <View style={{ flexDirection: 'row' }}>
         <View style={styles.optionIconContainer}>
-          <Ionicons name={icon} size={22} color="rgba(0,0,0,0.35)" />
+          {iconTag}
         </View>
         <View style={styles.optionTextContainer}>
-          <Text style={styles.optionText}>{label}</Text>
+          <Text style={[styles.optionText, isDistractive && styles.distractive]}>{label}</Text>
         </View>
       </View>
     </RectButton>
@@ -65,10 +107,14 @@ const styles = StyleSheet.create({
   },
   lastOption: {
     borderBottomWidth: StyleSheet.hairlineWidth,
+    marginBottom: 16
   },
   optionText: {
     fontSize: 15,
     alignSelf: 'flex-start',
-    marginTop: 1,
+    marginTop: 2,
   },
+  distractive: {
+    color: 'red'
+  }
 });
