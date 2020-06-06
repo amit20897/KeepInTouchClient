@@ -11,6 +11,7 @@ export default {
         Settings: 'settings',
       },
     },
-    PrioritySelectionScreen: {path: 'PrioritySelectionScreen'}
+    PrioritySelectionScreen: {path: 'PrioritySelectionScreen'},
+    PublishEventScreen: {path: 'PublishEventScreen'}
   },
 };
