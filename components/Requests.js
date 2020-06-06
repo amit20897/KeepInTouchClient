@@ -4,25 +4,25 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import SkeletonContent from "react-native-skeleton-content";
 
-import { Meeting } from "./Meeting";
+import { Request } from "./Request";
 
-export function Meetings({ isLoading, meetings, title }) {
+export function Requests({ isLoading, requests, title }) {
   return (
     <View style={ {backgroundColor: 'white'} }>
-      <Text style={styles.optionText}>{title || 'Your scheduled meetings'}</Text>
+      <Text style={styles.optionText}>{title || 'Pending requests'}</Text>
       <FlatList
         refreshing={isLoading}
-        data={meetings}
+        data={requests}
         renderItem={({item}) => 
-          <Meeting icon="ios-contact"
+          <Request icon="ios-contact"
             label={item.name}
             onPress={() => addFriend(item) }
-            isLoading={isLoading}></Meeting>
+            isLoading={isLoading}></Request>
         }
         keyExtractor={(item, index) => index}
       />
-      {(!meetings || !meetings.length) && (
-        <Text style={styles.noOptionsText}>No Meetings Scheduled</Text>
+      {(!requests || !requests.length) && (
+        <Text style={styles.noOptionsText}>No pending requests</Text>
       )}
     </View>
   );

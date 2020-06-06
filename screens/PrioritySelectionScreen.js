@@ -6,7 +6,7 @@ import * as Contacts from 'expo-contacts';
 import { useNavigation } from '@react-navigation/native';
 
 export default function PrioritySelectionScreen({ route, navigation }) {
-  const { id, isNew, source } = route;
+  const { id, isNew, source } = route.params;
 
   const [isLoading, setLoading] = useState(true);
   const [priorities, setPriorities] = useState([{}, {}, {}, {}]);
@@ -24,7 +24,15 @@ export default function PrioritySelectionScreen({ route, navigation }) {
     });
   }
 
+  async function getContact(id) {
+    console.log(route);
+    return Contacts.getContactByIdAsync(id);
+  }
+
   useEffect(() => {
+    getContact(id)
+      .then(c => navigation.setOptions({ headerTitle: `Add ${c.firstName} ${c.lastName}` }))
+      .catch(e => navigation.setOptions({ headerTitle: 'Add Friend' }));
     getPriorities()
       .then(priorities => setPriorities(priorities))
       .catch((error) => console.error(error))

@@ -21,6 +21,9 @@ export function Suggestions({ isLoading, suggestions }) {
         }
         keyExtractor={(item, index) => index}
       />
+      {(!suggestions || !suggestions.length) && (
+        <Text style={styles.noOptionsText}>No Suggestions</Text>
+      )}
     </View>
   );
 }
@@ -42,5 +45,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginLeft: 6
   },
+  noOptionsText: {
+    fontSize: 13,
+    color: 'gray',
+    marginLeft: 14
+  }
 });
 

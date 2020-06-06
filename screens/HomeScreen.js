@@ -6,10 +6,12 @@ import { ScrollView, RectButton } from 'react-native-gesture-handler';
 import { MonoText } from '../components/StyledText';
 import { Suggestions } from '../components/Suggestions';
 import { Meetings } from '../components/Meetings';
+import { Requests } from '../components/Requests';
 
 export default function HomeScreen({ navigation }) {
   const [suggestions, setSuggestions] = useState([{}, {}, {}]);
   const [meetings, setMeetings] = useState([{}, {}, {}]);
+  const [requests, setRequests] = useState([{}, {}, {}]);
   const [isLoading, setLoading] = useState(true);
 
   async function getSuggestions() {
@@ -22,13 +24,24 @@ export default function HomeScreen({ navigation }) {
       .then(response => response.json());
   }
 
+  async function getRequests() {
+    return fetch('http://3.17.26.113:8080/get_suggestion?id=5edaa5f2ea613908a59465b8')
+      .then(response => response.json());
+  }
+
   useEffect(() => {
-    Promise.all([getSuggestions(), getMeetings()])
-      .then(([suggestions, meetings]) => {
+    Promise.all([getSuggestions(), getMeetings(), getRequests()])
+      .then(([suggestions, meetings, requests]) => {
         setSuggestions((suggestions || []).filter(a => !!a));
         setMeetings((meetings || []).filter(a => !!a));
+        setRequests((requests || []).filter(a => !!a));
       })
-      .catch((error) => console.error(error))
+      .catch((error) => {
+        console.error(error);
+        setSuggestions();
+        setMeetings();
+        setRequests();
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -49,7 +62,9 @@ export default function HomeScreen({ navigation }) {
           <Meetings isLoading={isLoading} meetings={meetings}/>
         </View>
 
-        
+        <View style={[styles.suggestionsContainer, styles.section]}>
+          <Requests isLoading={isLoading} requests={requests}/>
+        </View>
       </ScrollView>
     </View>
   );
@@ -114,4 +129,7 @@ const styles = StyleSheet.create({
   navigationFilename: {
     marginTop: 5,
   },
+  section: {
+    marginTop: 16
+  }
 });
