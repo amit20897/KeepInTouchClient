@@ -55,5 +55,9 @@ function getHeaderTitle(route) {
       return 'My Friends';
     case 'Settings':
       return 'Settings';
+    case 'PrioritySelectionScreen':
+      return 'Add Friend';
+    case 'Settings':
+      return 'Settings';
   }
 }

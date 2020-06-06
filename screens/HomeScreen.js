@@ -18,7 +18,7 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     Promise.all([getSuggestions()])
-      .then(([suggestions]) => setSuggestions(suggestions))
+      .then(([suggestions]) => setSuggestions((suggestions || []).filter(a => !!a)))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, []);
@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 1,
     shadowOffset: { width: 10, height: 10 },
-    elevation: 6,
     overflow: 'hidden',
     marginBottom: 16
   },
@@ -68,7 +67,6 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     height: 40,
     backgroundColor: 'cyan',
-    elevation: 6,
     shadowColor: 'black',
     alignItems: 'center'
   },

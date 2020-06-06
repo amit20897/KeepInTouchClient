@@ -5,19 +5,35 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function PublishEventScreen() {
   const [date, setDate] = useState(new Date());
+  const [fromDate, setFromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(new Date(new Date().getTime() + 60 * 60 * 1000));
   const [mode, setMode] = useState(null);
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+  const onDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || new Date();
     setDate(currentDate);
+  };
+
+  const onFromTimeChange = (event, selectedDate) => {
+    const currentDate = selectedDate || fromDate;
+    setFromDate(currentDate);
+  };
+
+  const onToTimeChange = (event, selectedDate) => {
+    const currentDate = selectedDate || toDate;
+    setToDate(currentDate);
   };
 
   const showDatePicker = () => {
     setMode(mode === 'date' ? null : 'date');
   };
 
-  const showTimePicker = () => {
-    setMode(mode === 'time' ? null : 'time');
+  const showFromTimePicker = () => {
+    setMode(mode === 'from' ? null : 'from');
+  };
+
+  const showToTimePicker = () => {
+    setMode(mode === 'to' ? null : 'to');
   };
 
   return (
@@ -26,32 +42,48 @@ export default function PublishEventScreen() {
         <View style={styles.optionTextContainer}>
           <Text style={styles.optionText}>Date</Text>
           <View style={{flex: 1}}></View>
-          <Text style={styles.optionText}>Date</Text>
+          <Text style={styles.optionText}>{date.toLocaleDateString('en-US', {weekday: 'short', year: 'numeric', month: 'short'})}</Text>
         </View>
       </RectButton>
       {mode === 'date' && (<DateTimePicker
           testID="dateTimePicker"
           value={date}
-          mode={mode}
+          mode="date"
           is24Hour={true}
           display="default"
-          onChange={onChange}
+          onChange={onDateChange}
         />)}
-      <RectButton style={[styles.dateButton, styles.endSection]} onPress={showTimePicker}>
+      <RectButton style={[styles.dateButton]} onPress={showFromTimePicker}>
         <View style={styles.optionTextContainer}>
-          <Text style={styles.optionText}>Time</Text>
+          <Text style={styles.optionText}>From Time</Text>
           <View style={{flex: 1}}></View>
 
-          <Text style={styles.optionText}>Date</Text>
+          <Text style={styles.optionText}>{fromDate.toLocaleString('en-US', {hour: '2-digit', minute: '2-digit'})}</Text>
         </View>
       </RectButton>
-      {mode === 'time' && (<DateTimePicker
+      {mode === 'from' && (<DateTimePicker
           testID="dateTimePicker"
-          value={date}
-          mode={mode}
+          value={fromDate}
+          mode="time"
           is24Hour={true}
           display="default"
-          onChange={onChange}
+          onChange={onFromTimeChange}
+        />)}
+      <RectButton style={[styles.dateButton, styles.endSection]} onPress={showToTimePicker}>
+        <View style={styles.optionTextContainer}>
+          <Text style={styles.optionText}>To Time</Text>
+          <View style={{flex: 1}}></View>
+
+          <Text style={styles.optionText}>{toDate.toLocaleString('en-US', {hour: '2-digit', minute: '2-digit'})}</Text>
+        </View>
+      </RectButton>
+      {mode === 'to' && (<DateTimePicker
+          testID="dateTimePicker"
+          value={toDate}
+          mode="time"
+          is24Hour={true}
+          display="default"
+          onChange={onToTimeChange}
         />)}
     </View>
   );
