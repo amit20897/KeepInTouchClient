@@ -3,10 +3,13 @@ import { Platform, StyleSheet, View, Text } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+import { Meetings } from '../components/Meetings';
+
 export default function PublishEventScreen() {
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date(new Date().getTime() + 60 * 60 * 1000));
   const [mode, setMode] = useState(null);
+  const [meetings, setMeetings] = useState(null);
 
   const onFromDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || fromDate;
@@ -38,7 +41,7 @@ export default function PublishEventScreen() {
     const start = fromDate.toISOString();
     const end = toDate.toISOString();
     fetch('http://3.17.26.113:8080/check_available', {method: 'post', body: JSON.stringify({id: '5edaa5f2ea613908a59465b8', start, end}), headers: {'Content-Type': 'application/json'}})
-      .then(response => response.json()).then(e => console.log(e) || e).catch(e => alert('hello' + e));
+      .then(response => response.json()).then(e => setMeetings(e)).catch(e => alert('hello' + e));
   }
 
   return (
@@ -110,6 +113,8 @@ export default function PublishEventScreen() {
             <Text style={styles.buttonText}>Submit</Text>
           </View>
         </RectButton>
+
+        {meetings && (<Meetings meetings={meetings} isLoading={false}></Meetings>)}
     </View>
   );
 }

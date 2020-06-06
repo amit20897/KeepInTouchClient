@@ -17,7 +17,7 @@ export function Meeting({ label, onPress, isLoading }) {
             { key: "someId1", width: 330, height: 20 },
           ]}>
           <View style={styles.optionTextContainer}>
-            <Text style={styles.optionText}>{label}</Text>
+            <Text style={styles.optionText}>Meetings with {label}</Text>
           </View>
         </SkeletonContent>
       </View>

@@ -9,6 +9,7 @@ import { Meetings } from '../components/Meetings';
 
 export default function HomeScreen({ navigation }) {
   const [suggestions, setSuggestions] = useState([{}, {}, {}]);
+  const [meetings, setMeetings] = useState([{}, {}, {}]);
   const [isLoading, setLoading] = useState(true);
 
   async function getSuggestions() {
@@ -16,9 +17,17 @@ export default function HomeScreen({ navigation }) {
       .then(response => response.json());
   }
 
+  async function getMeetings() {
+    return fetch('http://3.17.26.113:8080/get_suggestion?id=5edaa5f2ea613908a59465b8')
+      .then(response => response.json());
+  }
+
   useEffect(() => {
-    Promise.all([getSuggestions()])
-      .then(([suggestions]) => setSuggestions((suggestions || []).filter(a => !!a)))
+    Promise.all([getSuggestions(), getMeetings()])
+      .then(([suggestions, meetings]) => {
+        setSuggestions((suggestions || []).filter(a => !!a));
+        setMeetings((meetings || []).filter(a => !!a));
+      })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, []);
@@ -37,7 +46,7 @@ export default function HomeScreen({ navigation }) {
         </RectButton>
 
         <View style={styles.suggestionsContainer}>
-          <Meetings />
+          <Meetings isLoading={isLoading} meetings={meetings}/>
         </View>
 
         

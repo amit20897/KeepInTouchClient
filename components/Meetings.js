@@ -1,31 +1,26 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import SkeletonContent from "react-native-skeleton-content";
 
 import { Meeting } from "./Meeting";
 
-export function Meetings({ isLoading }) {
+export function Meetings({ isLoading, meetings, title }) {
   return (
     <View style={ {backgroundColor: 'white'} }>
-      <Text style={styles.optionText}>Your scheduled meetings</Text>
-      <Meeting icon="ios-contact"
-        label="hola"
-        onPress={() => addFriend(item) }
-        isLoading={isLoading}></Meeting>
-      <Meeting icon="ios-contact"
-        label="hola"
-        onPress={() => addFriend(item) }
-        isLoading={isLoading}></Meeting>
-      <Meeting icon="ios-contact"
-        label="hola"
-        onPress={() => addFriend(item) }
-        isLoading={isLoading}></Meeting>
-      <Meeting icon="ios-contact"
-        label="hola"
-        onPress={() => addFriend(item) }
-        isLoading={isLoading}></Meeting>
+      <Text style={styles.optionText}>{title || 'Your scheduled meetings'}</Text>
+      <FlatList
+        refreshing={isLoading}
+        data={meetings}
+        renderItem={({item}) => 
+          <Meeting icon="ios-contact"
+            label={item.name}
+            onPress={() => addFriend(item) }
+            isLoading={isLoading}></Meeting>
+        }
+        keyExtractor={(item, index) => index}
+      />
     </View>
   );
 }
