@@ -11,6 +11,7 @@ import BottomTabNavigator from './navigation/BottomTabNavigator';
 import LinkingConfiguration from './navigation/LinkingConfiguration';
 import PrioritySelectionScreen from './screens/PrioritySelectionScreen'
 import PublishEventScreen from './screens/PublishEventScreen';
+import FriendScreen from './screens/FriendScreen';
 
 const Stack = createStackNavigator();
 
@@ -71,6 +72,7 @@ export default function App(props) {
             <Stack.Screen name="Root" component={BottomTabNavigator} />
             <Stack.Screen name="PrioritySelectionScreen" component={PrioritySelectionScreen} />
             <Stack.Screen name="PublishEventScreen" component={PublishEventScreen} />
+            <Stack.Screen name="FriendScreen" component={FriendScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

@@ -7,9 +7,9 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function MyFriendsScreen({ navigation }) {
   const loadingSections = [
-    {title: 'Close Friends', data: [{}, {}]},
+    {title: 'Close Friends', data: [{}]},
     {title: 'Friends', data: [{}, {}]},
-    {title: 'Acquaintances', data: [{}, {}]},
+    {title: 'Acquaintances', data: [{}, {}, {}]},
     {title: 'Others', data: [{}, {}]}
   ];
 
@@ -42,7 +42,7 @@ export default function MyFriendsScreen({ navigation }) {
   function mergeSections(friends, contacts) {
     return [
       {title: 'Close Friends', data: friends},
-      {title: 'Others', data: contacts}
+      {title: 'Others', data: contacts, source: 'contacts'}
     ];
   }
 
@@ -57,8 +57,13 @@ export default function MyFriendsScreen({ navigation }) {
     return `${contact.firstName} ${contact.lastName}`
   }
 
-  async function addFriend(friend) {
-    navigation.navigate('PrioritySelectionScreen', {id: friend.id, isNew: true, source: 'contacts'});
+  async function addFriend(friend, index, section) {
+    console.log(section);
+    if (section.source === 'contacts') {
+      navigation.navigate('PrioritySelectionScreen', {id: friend.id, isNew: true, source: 'contacts'});
+    } else {
+      navigation.navigate('FriendScreen', {friendId: friend.id});
+    }
   }
 
   return (
@@ -66,10 +71,12 @@ export default function MyFriendsScreen({ navigation }) {
       <SectionList
         refreshing={isLoading}
         sections={sections}
-        renderItem={({item}) => 
-          <Friend icon="ios-contact"
+        renderItem={({item, index, section}) => 
+          <Friend 
+            icon="ios-contact"
+            endIcon={section.source === 'contacts' ? 'md-add' : null}
             label={fullName(item)}
-            onPress={() => addFriend(item) }
+            onPress={() => addFriend(item, index, section) }
             isLoading={isLoading}>
           </Friend>
         }

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import SkeletonContent from "react-native-skeleton-content";
 
-export function Friend({ icon, label, onPress, isLoading }) {
+export function Friend({ icon, label, onPress, isLoading, endIcon }) {
   if (isLoading) onPress = () => {};
 
   return (
@@ -33,6 +33,10 @@ export function Friend({ icon, label, onPress, isLoading }) {
             <Text style={styles.optionText}>{label}</Text>
           </View>
         </SkeletonContent>
+
+        {endIcon && (<View style={styles.optionIconContainer}>
+          <Ionicons name={endIcon} size={22} color="rgba(0,0,0,0.35)" />
+        </View>)}
       </View>
     </RectButton>
   );

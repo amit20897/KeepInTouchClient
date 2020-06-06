@@ -12,6 +12,7 @@ export default {
       },
     },
     PrioritySelectionScreen: {path: 'PrioritySelectionScreen'},
-    PublishEventScreen: {path: 'PublishEventScreen'}
+    PublishEventScreen: {path: 'PublishEventScreen'},
+    FriendScreen: {path: 'FriendScreen'}
   },
 };
